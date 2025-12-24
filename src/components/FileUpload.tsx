@@ -1,3 +1,4 @@
+import { useState, useRef } from 'react';
 import { Upload } from 'lucide-react';
 import { QuantumMorphResult } from '../types/QuantumMorph';
 
@@ -6,20 +7,62 @@ interface FileUploadProps {
 }
 
 export default function FileUpload({ onDataLoaded }: FileUploadProps) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const validateData = (data: any): data is QuantumMorphResult => {
+    return (
+      data &&
+      typeof data === 'object' &&
+      data.overview &&
+      data.materialInput &&
+      data.processPipeline &&
+      data.compositeFormation &&
+      data.performance &&
+      data.riskAssessment &&
+      data.interpretation
+    );
+  };
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
+
+    setIsLoading(true);
+    setError(null);
 
     const reader = new FileReader();
     reader.onload = (e) => {
       try {
         const json = JSON.parse(e.target?.result as string);
+
+        if (!validateData(json)) {
+          setError('Invalid data structure. Please ensure the JSON matches the required format.');
+          setIsLoading(false);
+          return;
+        }
+
         onDataLoaded(json);
       } catch (error) {
-        alert('Invalid JSON file. Please check the file format.');
+        setError('Invalid JSON file. Please check the file format.');
         console.error('JSON parse error:', error);
+      } finally {
+        setIsLoading(false);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = '';
+        }
       }
     };
+
+    reader.onerror = () => {
+      setError('Error reading file. Please try again.');
+      setIsLoading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    };
+
     reader.readAsText(file);
   };
 
@@ -37,12 +80,21 @@ export default function FileUpload({ onDataLoaded }: FileUploadProps) {
             Load your AI-generated material transformation plan
           </p>
         </div>
-        <label className="cursor-pointer bg-cyan-500 hover:bg-cyan-600 text-slate-900 font-semibold px-6 py-3 rounded-lg transition-colors">
-          Choose File
+
+        {error && (
+          <div className="bg-rose-900/20 border border-rose-500/30 rounded-lg p-3 max-w-md">
+            <p className="text-rose-200 text-sm">{error}</p>
+          </div>
+        )}
+
+        <label className={`cursor-pointer bg-cyan-500 hover:bg-cyan-600 text-slate-900 font-semibold px-6 py-3 rounded-lg transition-colors ${isLoading ? 'opacity-50 cursor-not-allowed' : ''}`}>
+          {isLoading ? 'Loading...' : 'Choose File'}
           <input
+            ref={fileInputRef}
             type="file"
             accept=".json"
             onChange={handleFileChange}
+            disabled={isLoading}
             className="hidden"
           />
         </label>
