@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { Upload } from 'lucide-react';
 import { QuantumMorphResult } from '../types/QuantumMorph';
+import { transformAPIToInternal, isAPIFormat, isInternalFormat } from '../utils/dataTransformer';
 
 interface FileUploadProps {
   onDataLoaded: (data: QuantumMorphResult) => void;
@@ -10,20 +11,6 @@ export default function FileUpload({ onDataLoaded }: FileUploadProps) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const validateData = (data: any): data is QuantumMorphResult => {
-    return (
-      data &&
-      typeof data === 'object' &&
-      data.overview &&
-      data.materialInput &&
-      data.processPipeline &&
-      data.compositeFormation &&
-      data.performance &&
-      data.riskAssessment &&
-      data.interpretation
-    );
-  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -37,13 +24,19 @@ export default function FileUpload({ onDataLoaded }: FileUploadProps) {
       try {
         const json = JSON.parse(e.target?.result as string);
 
-        if (!validateData(json)) {
+        let transformedData: QuantumMorphResult;
+
+        if (isAPIFormat(json)) {
+          transformedData = transformAPIToInternal(json);
+        } else if (isInternalFormat(json)) {
+          transformedData = json;
+        } else {
           setError('Invalid data structure. Please ensure the JSON matches the required format.');
           setIsLoading(false);
           return;
         }
 
-        onDataLoaded(json);
+        onDataLoaded(transformedData);
       } catch (error) {
         setError('Invalid JSON file. Please check the file format.');
         console.error('JSON parse error:', error);

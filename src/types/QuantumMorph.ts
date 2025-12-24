@@ -69,3 +69,60 @@ export interface QuantumMorphResult {
   riskAssessment: RiskAssessment;
   interpretation: string;
 }
+
+export interface APIQuantumMorphResult {
+  status: string;
+  material: {
+    category: string;
+    name: string;
+    input_mass_g: number;
+    moisture: number;
+  };
+  process_plan: {
+    pyrolysis: {
+      temperature_celsius: number;
+      duration_hours: number;
+      atmosphere: string;
+    };
+    activation: {
+      enabled: boolean;
+      type: string;
+      agent: string;
+      concentration_percent_wv: number;
+      solution_volume_ml: number;
+      acid_mass_g: number;
+      soaking_time_hours: number;
+    };
+    washing: {
+      enabled: boolean;
+      method: string;
+    };
+    drying: {
+      temperature_celsius: number;
+      duration_hours: number;
+    };
+    composite_formation: {
+      enabled: boolean;
+      fractions: {
+        biochar: number;
+        binder: number;
+        plasticizer: number;
+      };
+      masses_g: {
+        biochar: number;
+        binder: number;
+        plasticizer: number;
+      };
+    };
+  };
+  predicted_performance: {
+    co2_adsorption_score: number;
+    structural_regime: string;
+    confidence: number;
+  };
+  risk_assessment: {
+    overall_risk: string;
+    most_sensitive_step: string;
+  };
+  scientific_explanation: string;
+}

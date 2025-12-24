@@ -1,0 +1,56 @@
+{
+  "status": "success",
+  "material": {
+    "category": "agricultural",
+    "name": "Rice Straw",
+    "input_mass_g": 50.0,
+    "moisture": 0.3
+  },
+  "process_plan": {
+    "pyrolysis": {
+      "temperature_celsius": 396.0,
+      "duration_hours": 0.94,
+      "atmosphere": "inert"
+    },
+    "activation": {
+      "enabled": true,
+      "type": "chemical",
+      "agent": "HCl",
+      "concentration_percent_wv": 5,
+      "solution_volume_ml": 1000.0,
+      "acid_mass_g": 50.0,
+      "soaking_time_hours": 2
+    },
+    "washing": {
+      "enabled": true,
+      "method": "distilled_water_until_neutral_pH"
+    },
+    "drying": {
+      "temperature_celsius": 80,
+      "duration_hours": 6
+    },
+    "composite_formation": {
+      "enabled": true,
+      "fractions": {
+        "biochar": 0.65,
+        "binder": 0.35,
+        "plasticizer": 0.0
+      },
+      "masses_g": {
+        "biochar": 32.5,
+        "binder": 17.5,
+        "plasticizer": 0.0
+      }
+    }
+  },
+  "predicted_performance": {
+    "co2_adsorption_score": 0.761,
+    "structural_regime": "optimal_composite",
+    "confidence": 0.7
+  },
+  "risk_assessment": {
+    "overall_risk": "low",
+    "most_sensitive_step": "activation"
+  },
+  "scientific_explanation": "The AI jointly optimized thermal conditions and composite composition to balance pore hierarchy and mechanical stability. The moderate pyrolysis temperature (396°C) creates a stable carbon framework while preserving reactive functional groups. Chemical activation with HCl introduces micropores critical for CO₂ capture. The composite formulation (65% biochar, 35% binder) provides sufficient mechanical strength while maintaining high porosity, resulting in a predicted CO₂ adsorption capacity of 0.761 mmol/g with 70% confidence."
+}
