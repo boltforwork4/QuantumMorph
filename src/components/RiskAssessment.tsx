@@ -16,7 +16,7 @@ export default function RiskAssessment({ data }: RiskAssessmentProps) {
   const colors = getRiskColor(data.riskLevel);
 
   return (
-    <div className="bg-slate-800 rounded-lg p-6 border border-slate-700">
+    <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 transition-smooth hover:border-slate-600">
       <div className="flex items-center gap-3 mb-4">
         <AlertTriangle className="text-cyan-400" size={24} />
         <h2 className="text-xl font-bold text-slate-100">Risk & Safety Assessment</h2>
@@ -28,19 +28,19 @@ export default function RiskAssessment({ data }: RiskAssessmentProps) {
       </p>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <div className={`${colors.accent} border ${colors.border} rounded-lg p-6`}>
+        <div className={`${colors.accent} border ${colors.border} rounded-lg p-6 transition-smooth hover:border-opacity-100 hover:shadow-lg`} style={{ boxShadow: 'hover' ? `0 4px 12px ${colors.bg}` : 'none' }}>
           <div className="flex items-center gap-1 mb-4">
             <label className="text-sm text-slate-400">Overall Risk Level</label>
             <Tooltip text="Comprehensive risk score considering chemical hazards, thermal conditions, and operational complexity." />
           </div>
 
           <div className="flex items-center gap-4 mb-4">
-            <span className={`text-4xl font-bold ${colors.text}`}>{data.overallRisk}</span>
+            <span className={`text-4xl font-bold ${colors.text} transition-transform duration-500 hover:scale-110`}>{data.overallRisk}</span>
             <div className="flex-1">
-              <div className="relative h-4 bg-slate-800 rounded-full overflow-hidden">
+              <div className="relative h-4 bg-slate-800 rounded-full overflow-hidden transition-smooth hover:bg-slate-700">
                 <div
-                  className={`absolute h-full ${colors.bg} transition-all duration-1000`}
-                  style={{ width: `${(data.riskLevel / 10) * 100}%` }}
+                  className={`absolute h-full ${colors.bg} animate-fillBar`}
+                  style={{ '--bar-width': `${(data.riskLevel / 10) * 100}%` } as React.CSSProperties}
                 ></div>
               </div>
               <div className="flex justify-between text-xs text-slate-500 mt-1">
@@ -56,14 +56,14 @@ export default function RiskAssessment({ data }: RiskAssessmentProps) {
           </div>
         </div>
 
-        <div className="bg-slate-900 rounded-lg p-6 border border-slate-700">
+        <div className="bg-slate-900 rounded-lg p-6 border border-slate-700 transition-smooth hover:border-amber-500/50 hover:shadow-lg hover:shadow-amber-500/10">
           <div className="flex items-center gap-1 mb-4">
             <label className="text-sm text-slate-400">Most Sensitive Step</label>
             <Tooltip text="The process stage requiring the most careful control and monitoring to ensure safety and product quality." />
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center">
+          <div className="flex items-center gap-3 animate-scaleIn">
+            <div className="w-12 h-12 rounded-full bg-amber-500/20 border border-amber-500/30 flex items-center justify-center transition-transform duration-500 hover:scale-125 hover:bg-amber-500/30">
               <AlertTriangle className="text-amber-400" size={24} />
             </div>
             <div>

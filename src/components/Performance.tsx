@@ -7,10 +7,10 @@ interface PerformanceProps {
 }
 
 export default function Performance({ data }: PerformanceProps) {
-  const normalizedScore = Math.min((data.co2AdsorptionScore / 10) * 100, 100);
+  const normalizedScore = Math.min((data.co2AdsorptionScore / 440) * 100, 100);
 
   return (
-    <div className="bg-slate-800 rounded-lg p-6 border border-slate-700">
+    <div className="bg-slate-800 rounded-lg p-6 border border-slate-700 transition-smooth hover:border-slate-600">
       <div className="flex items-center gap-3 mb-4">
         <TrendingUp className="text-cyan-400" size={24} />
         <h2 className="text-xl font-bold text-slate-100">Predicted Performance</h2>
@@ -22,35 +22,35 @@ export default function Performance({ data }: PerformanceProps) {
       </p>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <div className="bg-slate-900 rounded-lg p-6 border border-slate-700">
+        <div className="bg-slate-900 rounded-lg p-6 border border-slate-700 transition-smooth hover:border-cyan-500/50 hover:shadow-lg hover:shadow-cyan-500/10">
           <div className="flex items-center gap-1 mb-4">
             <label className="text-sm text-slate-400">CO₂ Adsorption Score</label>
-            <Tooltip text="Estimated CO₂ adsorption capacity in mmol/g under standard conditions (25°C, 1 bar)." />
+            <Tooltip text="Estimated CO₂ adsorption capacity in mg/g under standard conditions (25°C, 1 bar)." />
           </div>
 
-          <div className="relative h-12 bg-slate-800 rounded-full overflow-hidden border border-slate-700">
+          <div className="relative h-12 bg-slate-800 rounded-full overflow-hidden border border-slate-700 transition-smooth">
             <div
-              className="absolute h-full bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-400 transition-all duration-1000 flex items-center justify-end pr-4"
-              style={{ width: `${normalizedScore}%` }}
+              className="absolute h-full bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-400 animate-fillBar flex items-center justify-end pr-4"
+              style={{ '--bar-width': `${normalizedScore}%` } as React.CSSProperties}
             >
-              <span className="text-lg font-bold text-slate-900">{data.co2AdsorptionScore} mmol/g</span>
+              <span className="text-lg font-bold text-slate-900">{data.co2AdsorptionScore} mg/g</span>
             </div>
           </div>
 
           <div className="mt-4 flex justify-between text-xs text-slate-500">
             <span>0</span>
-            <span>10</span>
+            <span>440</span>
           </div>
         </div>
 
-        <div className="bg-slate-900 rounded-lg p-6 border border-slate-700">
+        <div className="bg-slate-900 rounded-lg p-6 border border-slate-700 transition-smooth hover:border-cyan-500/50 hover:shadow-lg hover:shadow-cyan-500/10">
           <div className="flex items-center gap-1 mb-4">
             <label className="text-sm text-slate-400">Prediction Confidence</label>
             <Tooltip text="Statistical confidence in the predicted performance based on model accuracy and input data quality." />
           </div>
 
           <div className="flex items-center justify-center">
-            <div className="relative w-32 h-32">
+            <div className="relative w-32 h-32 transition-transform duration-500 hover:scale-110">
               <svg className="w-full h-full transform -rotate-90">
                 <circle
                   cx="64"

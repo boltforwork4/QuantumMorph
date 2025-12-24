@@ -67,7 +67,7 @@ export const transformAPIToInternal = (apiData: APIQuantumMorphResult): QuantumM
       plasticizerMass: apiData.process_plan.composite_formation.masses_g.plasticizer
     },
     performance: {
-      co2AdsorptionScore: Math.round(apiData.predicted_performance.co2_adsorption_score * 10) / 10,
+      co2AdsorptionScore: Math.round(apiData.predicted_performance.co2_adsorption_score * 44 * 10) / 10,
       confidence: Math.round(apiData.predicted_performance.confidence * 100)
     },
     riskAssessment: {

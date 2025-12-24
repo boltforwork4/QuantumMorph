@@ -7,9 +7,9 @@ interface OverviewProps {
 
 export default function Overview({ confidence, structuralRegime }: OverviewProps) {
   return (
-    <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-8 border border-cyan-500/20 shadow-xl">
+    <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-8 border border-cyan-500/20 shadow-xl transition-smooth hover:border-cyan-500/40 hover:shadow-2xl hover:shadow-cyan-500/10 animate-slideIn">
       <div className="flex items-center gap-3 mb-4">
-        <Sparkles className="text-cyan-400" size={32} />
+        <Sparkles className="text-cyan-400 animate-pulse" size={32} />
         <h1 className="text-3xl font-bold text-slate-100">
           Quantum-Morph Material Design Result
         </h1>
@@ -22,22 +22,22 @@ export default function Overview({ confidence, structuralRegime }: OverviewProps
       </p>
 
       <div className="grid md:grid-cols-2 gap-6">
-        <div>
+        <div className="transition-smooth hover:bg-slate-800/50 p-4 rounded-lg">
           <label className="text-sm text-slate-400 mb-2 block">Model Confidence</label>
-          <div className="relative h-8 bg-slate-700 rounded-full overflow-hidden">
+          <div className="relative h-8 bg-slate-700 rounded-full overflow-hidden transition-smooth hover:bg-slate-600">
             <div
-              className="absolute h-full bg-gradient-to-r from-cyan-500 to-teal-400 transition-all duration-1000 ease-out flex items-center justify-end pr-3"
-              style={{ width: `${confidence}%` }}
+              className="absolute h-full bg-gradient-to-r from-cyan-500 to-teal-400 animate-fillBar flex items-center justify-end pr-3"
+              style={{ '--bar-width': `${confidence}%` } as React.CSSProperties}
             >
               <span className="text-sm font-semibold text-slate-900">{confidence}%</span>
             </div>
           </div>
         </div>
 
-        <div>
+        <div className="transition-smooth hover:bg-slate-800/50 p-4 rounded-lg">
           <label className="text-sm text-slate-400 mb-2 block">Structural Regime</label>
           <div className="h-8 flex items-center">
-            <span className="px-4 py-1 bg-teal-500/20 text-teal-300 rounded-full text-sm font-medium border border-teal-500/30">
+            <span className="px-4 py-1 bg-teal-500/20 text-teal-300 rounded-full text-sm font-medium border border-teal-500/30 transition-all hover:bg-teal-500/30 hover:border-teal-500/50 cursor-default animate-scaleIn">
               {structuralRegime}
             </span>
           </div>
